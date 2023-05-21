@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="navbar mb-auto d-flex flex-row">
+      <a href="/student/">Students</a>
+      <a href="/student/insert/">Add Student</a>
+      <a href="/staff/">Staff</a>
+      <a href="/staff/insert/">Add Staff</a>
+      <a href="/login/">Login</a>
+      <a href="/register/">Register</a>
+    </div>
+
+    <div
+      class="d-flex flex-column justify-content-center align-items-center mb-auto"
+    >
+      {% block content %} {% endblock %}
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2023 My Website. All rights reserved.</p>
+    </div>
+  </body>
+</html>

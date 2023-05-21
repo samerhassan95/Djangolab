@@ -1,0 +1,32 @@
+<!-- students/add_student.html -->
+{% extends 'base.html' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<div style="width:500px">
+    <h1 class="mb-5 text-center">Add Student</h1>
+<form method="post" class="form form-control">
+    {% csrf_token %}
+    <label class="form-label" for="id_name">Name:</label>
+    <input class="form-control " type="text" name="name" id="id_name">
+    <br>
+    <label  class="form-label" for="id_age">Age:</label>
+    <input class="form-control " type="number" name="age" id="id_age">
+    <br>
+    <label class="form-label" for="id_city">City:</label>
+    <input class="form-control " type="text" name="city" id="id_city">
+    <br>
+     <label class="form-label" for="id_supervisor">Supervisor:</label>
+    <select class="form-control " name="supervisor" id="id_supervisor">
+        {% for supervisor in supervisors %}
+        <option value="{{ supervisor.id }}">{{ supervisor.name }}</option>
+        {% endfor %}
+    </select>
+    <div class="d-flex justify-content-center mt-2">
+        <button type="submit" class="btn btn-success ms-auto">Add</button>
+    </div>
+</form>
+
+</div>
+{% endblock %}

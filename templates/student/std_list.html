@@ -1,0 +1,42 @@
+<!-- child.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    My Child Page
+{% endblock %}
+
+{% block content %}
+   <div class="d-flex flex-column" style="width:70%">
+        <h1 class="text-center mb-5">All Students</h1>
+
+<table class="table">
+    <thead class="text-center">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+            <th>Supervisor</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.city }}</td>
+            <td>{{ student.supervisor.name }}</td>
+            <td class="d-flex flex-row justify-content-center">
+                <a href="{% url 'update_student' student.id %}" class="mx-3 btn btn-warning">Update</a>
+                <form action="{% url 'delete_student' student.id %}"  method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+   </div>
+{% endblock %}

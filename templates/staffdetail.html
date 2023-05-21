@@ -1,0 +1,10 @@
+{# {% extends 'base.html' %} #} {% block content %}
+<h1>{{ staff.name }}</h1>
+<p>Email: {{ staff.email }}</p>
+<p>Department: {{ staff.department }}</p>
+<a href="{% url 'staff_update' id=staff.id %}">Edit Staff Member</a>
+<form action="{% url 'staff_delete' id=staff.id %}" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Delete Staff Member" />
+</form>
+{% endblock %}

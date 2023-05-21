@@ -1,0 +1,38 @@
+<!-- child.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    My Child Page
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column" style="width:70%">
+        <h1 class="text-center mb-5">All Supervisors</h1>
+
+<table  class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sup in sups %}
+        <tr>
+            <td>{{ sup.id }}</td>
+            <td>{{ sup.name }}</td>
+            <td class="d-flex flex-row justify-content-center">
+                <a href="{% url 'update_staff' sup.id %}" class="mx-3 btn btn-warning">Update</a>
+                <form action="{% url 'delete_staff' sup.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+{% endblock %}

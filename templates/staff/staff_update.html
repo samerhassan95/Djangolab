@@ -1,0 +1,21 @@
+<!-- child.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    My Child Page
+{% endblock %}
+
+{% block content %}
+<div style="width:500px">
+      <h1 class="text-center mb-5">Update Supervisor</h1>
+
+<form method="post" class="form form-control">
+    {% csrf_token %}
+    <label class="form-label" for="id_name">Name:</label>
+    <input class="form-control" type="text" name="name" id="id_name" value="{{ sup.name }}">
+    <br>
+ <div class="d-flex justify-content-center mt-2">
+        <button type="submit" class="btn btn-success ms-auto">Update</button>
+    </div></form>
+</div>
+{% endblock %}

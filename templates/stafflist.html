@@ -1,0 +1,9 @@
+{# {% extends 'base.html' %} #} {% block content %}
+<h1>Staff Members</h1>
+<ul>
+  {% for staff in staffs %}
+  <li><a href="{% url 'staff_detail' id=staff.id %}">{{ staff.name }}</a></li>
+  {% endfor %}
+</ul>
+<a href="{% url 'staff_create' %}">Add Staff Member</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!-- students/add_student.html -->
+{% extends 'base.html' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<div style="width:500px">
+    <h1 class="mb-5 text-center">Add Supervisor</h1>
+
+<form method="post" class="form form-control" >
+    {% csrf_token %}
+    <label class="form-label" for="id_name">Name:</label>
+    <input class="form-control" type="text" name="name" id="id_name">
+    <br>
+
+    <div class="d-flex justify-content-center mt-2">
+        <button type="submit" class="btn btn-success ms-auto">Add</button>
+    </div>
+</form>
+
+</div>
+{% endblock %}
