@@ -13,9 +13,15 @@ from . import views
 #     path('<int:id>/edit/', views.student_update, name='student_update'),
 #     path('<int:id>/delete/', views.student_delete, name='student_delete'),
 #                ]
+from django.urls import path
+from .views import StudentListView, StudentCreateView, StudentUpdateView, StudentDeleteView
 urlpatterns = [
-    path('', views.all_std, name="all_std"),
-    path('insert/', views.insert),
-    path('update/<int:std_id>/', views.update, name='update_student'),
-    path('delete/<int:std_id>/', views.delete, name='delete_student')
+    # path('', views.all_std, name="all_std"),
+    # path('insert/', views.insert),
+    # path('update/<int:std_id>/', views.update, name='update_student'),
+    # path('delete/<int:std_id>/', views.delete, name='delete_student')
+    path('', StudentListView.as_view(), name='student_list'),
+path('insert/', StudentCreateView.as_view(), name='student_insert'),
+path('update/int:pk/', StudentUpdateView.as_view(), name='student_update'),
+path('delete/int:pk/', StudentDeleteView.as_view(), name='student_delete'),
 ]

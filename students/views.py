@@ -63,44 +63,83 @@ from django.http import HttpResponse,HttpResponseRedirect
 from .models import Student
 from staff.models import Staff
 
-def all_std(req):
-    students = Student.objects.all()
-    return render(req, 'student/std_list.html', {'students': students})
+# def all_std(req):
+#     students = Student.objects.all()
+#     return render(req, 'student/std_list.html', {'students': students})
 
-def insert(req):
-    if req.method == 'POST':
-        name = req.POST.get('name')
-        age = req.POST.get('age')
-        city = req.POST.get('city')
-        supervisor_id = req.POST.get('supervisor')
-        supervisor = Staff.objects.get(id=supervisor_id)
-        student = Student(name=name, age=age, city=city, supervisor=supervisor)
-        student.save()
-        return redirect('/student/')
-    supervisors = Staff.objects.all()
-    return render(req, 'student/std_insert.html',{'supervisors': supervisors})
+# def insert(req):
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         age = req.POST.get('age')
+#         city = req.POST.get('city')
+#         supervisor_id = req.POST.get('supervisor')
+#         supervisor = Staff.objects.get(id=supervisor_id)
+#         student = Student(name=name, age=age, city=city, supervisor=supervisor)
+#         student.save()
+#         return redirect('/student/')
+#     supervisors = Staff.objects.all()
+#     return render(req, 'student/std_insert.html',{'supervisors': supervisors})
 
-def update(req,std_id):
-    student = get_object_or_404(Student, id=std_id)
-    if req.method == 'POST':
-        name = req.POST.get('name')
-        age = req.POST.get('age')
-        city = req.POST.get('city')
-        supervisor_id = req.POST.get('supervisor')
-        supervisor = Staff.objects.get(id=supervisor_id)
-        student.name = name
-        student.age = age
-        student.city = city
-        student.supervisor = supervisor
-        student.save()
-        return redirect('/student/')
+# def update(req,std_id):
+#     student = get_object_or_404(Student, id=std_id)
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         age = req.POST.get('age')
+#         city = req.POST.get('city')
+#         supervisor_id = req.POST.get('supervisor')
+#         supervisor = Staff.objects.get(id=supervisor_id)
+#         student.name = name
+#         student.age = age
+#         student.city = city
+#         student.supervisor = supervisor
+#         student.save()
+#         return redirect('/student/')
 
-    supervisors = Staff.objects.all()
-    return render(req, 'student/std_update.html', {'student': student, 'supervisors': supervisors})
+#     supervisors = Staff.objects.all()
+#     return render(req, 'student/std_update.html', {'student': student, 'supervisors': supervisors})
 
 
 
-def delete(req,std_id):
-    student = get_object_or_404(Student, id=std_id)
-    student.delete()
-    return redirect('/student/')
+# def delete(req,std_id):
+#     student = get_object_or_404(Student, id=std_id)
+#     student.delete()
+#     return redirect('/student/')
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Student, Staff
+
+class StudentListView(ListView):
+    model = Student
+    template_name = 'student/std_list.html'
+    context_object_name = 'students'
+
+class StudentCreateView(CreateView):
+    model = Student
+    template_name = 'student/std_insert.html'
+    fields = ['name', 'age', 'city', 'supervisor']
+    success_url = reverse_lazy('student_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['supervisors'] = Staff.objects.all()
+        return context
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    template_name = 'student/std_update.html'
+    fields = ['name', 'age', 'city', 'supervisor']
+    success_url = reverse_lazy('student_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['supervisors'] = Staff.objects.all()
+        return context
+
+class StudentDeleteView(DeleteView):
+    model = Student
+    success_url = reverse_lazy('student_list')
+
+
