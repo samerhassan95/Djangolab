@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from django.shortcuts import render, redirect  
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse,HttpResponseRedirect
-from .models import Staff
+# from django.shortcuts import render
+# from django.shortcuts import render, redirect  
+# from django.http import HttpResponseRedirect, HttpResponse
+# from django.shortcuts import render,redirect,get_object_or_404
+# from django.http import HttpResponse,HttpResponseRedirect
+# from .models import Staff
 # Create your views here.
 # def home(request):
 #     # logic for your view
@@ -94,31 +94,68 @@ from .models import Staff
 #     logout(request)
 #     return redirect('home')
 
-def all_staff(req):
-    sups = Staff.objects.all()
-    return render(req, 'staff/staff_list.html', {'sups': sups})
+# def all_staff(req):
+#     sups = Staff.objects.all()
+#     return render(req, 'staff/staff_list.html', {'sups': sups})
 
-def insert(req):
-    if req.method == 'POST':
-        name = req.POST.get('name')
+# def insert(req):
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         sup = Staff(name=name)
+#         sup.save()
+#         return redirect('/staff/')
+#     return render(req, 'staff/staff_insert.html')
+
+# def update(req,sup_id):
+#     sup = get_object_or_404(Staff, id=sup_id)
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         sup.name = name
+#         sup.save()
+#         return redirect('/staff/')
+
+#     return render(req, 'staff/staff_update.html', {'sup': sup})
+
+
+
+# def delete(req,sup_id):
+#     sup = get_object_or_404(Staff, id=sup_id)
+#     sup.delete()
+#     return redirect('/staff/')
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
+from .models import Staff
+
+class StaffListView(View):
+    def get(self, request):
+        sups = Staff.objects.all()
+        return render(request, 'staff/staff_list.html', {'sups': sups})
+
+class StaffInsertView(View):
+    def get(self, request):
+        return render(request, 'staff/staff_insert.html')
+
+    def post(self, request):
+        name = request.POST.get('name')
         sup = Staff(name=name)
         sup.save()
         return redirect('/staff/')
-    return render(req, 'staff/staff_insert.html')
 
-def update(req,sup_id):
-    sup = get_object_or_404(Staff, id=sup_id)
-    if req.method == 'POST':
-        name = req.POST.get('name')
+class StaffUpdateView(View):
+    def get(self, request, sup_id):
+        sup = get_object_or_404(Staff, id=sup_id)
+        return render(request, 'staff/staff_update.html', {'sup': sup})
+
+    def post(self, request, sup_id):
+        sup = get_object_or_404(Staff, id=sup_id)
+        name = request.POST.get('name')
         sup.name = name
         sup.save()
         return redirect('/staff/')
 
-    return render(req, 'staff/staff_update.html', {'sup': sup})
-
-
-
-def delete(req,sup_id):
-    sup = get_object_or_404(Staff, id=sup_id)
-    sup.delete()
-    return redirect('/staff/')
+class StaffDeleteView(View):
+    def post(self, request, sup_id):
+        sup = get_object_or_404(Staff, id=sup_id)
+        sup.delete()
+        return redirect('/staff/')
